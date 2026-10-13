@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f8eee4">
+<title>For My Favourite Person ♡</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&family=Playfair+Display:wght@500;600;700&display=swap');
+:root{--cream:#fff7ed;--pink:#f4cbd0;--rose:#b94c59;--red:#8e2735;--sage:#b7c6b0;--blue:#c5d5d0;--ink:#593b3d;--paper:#fffaf3;--gold:#d8ae69}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'DM Sans',sans-serif;background-color:var(--cream);background-image:repeating-linear-gradient(0deg,transparent 0 29px,rgba(142,39,53,.07) 30px 31px),repeating-linear-gradient(90deg,transparent 0 29px,rgba(142,39,53,.07) 30px 31px);min-height:100vh;overflow-x:hidden}
+button{font:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid #b94c59;outline-offset:4px}
+.page{display:none;min-height:100vh;padding:28px 18px 40px;position:relative;overflow:hidden}
+.page.active{display:flex;align-items:center;justify-content:center;animation:fadeIn .65s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.card{width:min(850px,100%);padding:clamp(24px,5vw,52px);background:rgba(255,250,243,.91);border:1px solid rgba(142,39,53,.15);border-radius:28px;box-shadow:0 18px 55px rgba(107,54,52,.11);position:relative;text-align:center}
+.card:before{content:"";position:absolute;inset:9px;border:1px dashed rgba(185,76,89,.27);border-radius:21px;pointer-events:none}
+.eyebrow{letter-spacing:.19em;text-transform:uppercase;font-size:.72rem;font-weight:700;color:var(--rose)}
+h1,h2,h3{font-family:'Playfair Display',serif;font-weight:600}
+h1{font-size:clamp(2.6rem,7vw,5.3rem);line-height:1.12;margin:18px 0;color:var(--red)}
+h2{font-size:clamp(2rem,5vw,3.3rem);margin:10px 0 12px;color:var(--red)}
+p{line-height:1.75}
+.script{font-family:'Pacifico',cursive;color:var(--rose)}
+.subtitle{max-width:570px;margin:0 auto 26px;font-size:1.04rem}
+.btn{border:0;border-radius:999px;padding:13px 24px;background:var(--red);color:white;box-shadow:0 7px 0 #6f2631;transition:transform .18s,box-shadow .18s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 9px 0 #6f2631}
+.btn:active{transform:translateY(3px);box-shadow:0 3px 0 #6f2631}
+.btn.secondary{background:#e9d8cb;color:var(--ink);box-shadow:0 6px 0 #c6ac9d}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.sticker{display:inline-block;padding:9px 15px;border-radius:14px;background:#f7e1e0;transform:rotate(-3deg);font-size:.88rem}
+.float{position:absolute;opacity:.78;pointer-events:none;animation:bob 4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-12px) rotate(5deg)}}
+.heart{color:var(--rose);font-size:27px}
+.tiny-note{font-size:.82rem;opacity:.78}
+.corner{position:absolute;font-size:28px;color:#bd5962;opacity:.65}
+.corner.one{top:19px;left:23px}.corner.two{right:22px;bottom:18px}
+.progress{font-size:.8rem;color:#95686a;margin:10px 0 22px}
+.envelope-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:26px 0 12px}
+.env{min-height:105px;border:1px solid #e2b9b7;border-radius:14px;background:linear-gradient(145deg,#f5d5d2,#fff0e5);color:#9a3946;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;box-shadow:0 5px 0 #e5c2b9;transition:.2s}
+.env:before{content:"";position:absolute;top:0;left:0;right:0;height:50%;background:linear-gradient(150deg,transparent 49%,rgba(183,76,89,.13) 50%,transparent 52%);border-radius:14px 14px 0 0}
+.env:hover{transform:translateY(-4px) rotate(-1deg)}
+.env .num{font-size:.75rem;opacity:.8}.env .seal{font-size:23px;z-index:1}
+.env.opened{background:linear-gradient(145deg,#dce5d7,#f8f0d8);border-color:#b4c7ae;box-shadow:0 5px 0 #b7c6b0;color:#54725a}
+.envelope-hint{font-size:.9rem;margin:0 auto;max-width:580px}
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(54,34,37,.45);z-index:20;align-items:center;justify-content:center;padding:18px}
+.modal-backdrop.show{display:flex;animation:fadeIn .25s ease}
+.letter{width:min(490px,100%);background:#fff8ec;border-radius:20px;padding:32px 27px;box-shadow:0 20px 70px #43252b55;position:relative;border:1px solid #e8d2bd}
+.letter:before{content:"";position:absolute;inset:8px;border:1px dashed #dcb9a7;border-radius:14px;pointer-events:none}
+.letter h3{color:var(--red);font-size:1.5rem;margin:8px 0}
+.letter p{font-size:1.06rem;position:relative}
+.close{position:absolute;right:18px;top:14px;border:0;background:#f2dfd7;border-radius:50%;width:34px;height:34px;color:var(--red);font-size:19px;z-index:1}
+.cake-layout{display:grid;grid-template-columns:1fr .85fr;gap:28px;align-items:center;margin-top:24px;text-align:left}
+.cake-scene{background:linear-gradient(145deg,#f8e8d8,#e6ece1);border-radius:24px;min-height:320px;display:flex;align-items:center;justify-content:center;position:relative;padding:18px;overflow:hidden;border:1px solid #e6d2bf}
+.cake-scene:before{content:"✦  ·  ✧  ·  ✦";position:absolute;top:15px;color:#c19b62;letter-spacing:13px}
+.cake{position:relative;width:min(300px,100%);height:230px;margin-top:42px}
+.icing{position:absolute;left:7%;right:7%;top:61px;height:62px;background:#f8d6d2;border-radius:22px 22px 17px 17px;z-index:2;border:2px solid #e8b5b2}
+.icing:after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:25px;background:radial-gradient(circle at 13% 0,#f8d6d2 0 12px,transparent 13px),radial-gradient(circle at 36% 0,#f8d6d2 0 12px,transparent 13px),radial-gradient(circle at 61% 0,#f8d6d2 0 12px,transparent 13px),radial-gradient(circle at 86% 0,#f8d6d2 0 12px,transparent 13px)}
+.cake-body{position:absolute;left:7%;right:7%;top:100px;height:94px;background:repeating-linear-gradient(0deg,#d88d8b 0 12px,#e8aaa0 12px 24px);border-radius:0 0 19px 19px;border:2px solid #cf8986;z-index:1}
+.cake-plate{position:absolute;left:0;right:0;bottom:13px;height:24px;background:#fff8ec;border:2px solid #d5bda7;border-radius:50%;box-shadow:0 5px 0 #d9c5b1}
+.cake-text{position:absolute;z-index:4;top:79px;left:0;right:0;text-align:center;font-family:'Pacifico',cursive;color:#9d4a52;font-size:16px;transform:rotate(-3deg)}
+.candles-on-cake{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-evenly;z-index:5;height:80px;align-items:flex-end}
+.candle-slot{width:18px;height:64px;border:0;background:transparent;position:relative;padding:0;opacity:.32;cursor:default}
+.candle-slot.placed{opacity:1;cursor:pointer}
+.candle-stick{display:block;width:13px;height:48px;margin:auto;background:repeating-linear-gradient(135deg,#fff7e7 0 6px,#bf6570 6px 10px);border:1px solid #bd7a7b;border-radius:5px 5px 2px 2px;position:relative}
+.candle-stick:before{content:"";position:absolute;top:-5px;left:5px;width:2px;height:7px;background:#614444}
+.flame{display:none;position:absolute;top:-25px;left:2px;width:10px;height:19px;background:radial-gradient(ellipse at 50% 65%,#fff5a5 0 28%,#ffc05b 45%,#ef8150 75%);border-radius:60% 40% 60% 40%;transform:rotate(7deg);filter:drop-shadow(0 0 7px #ffb84d);animation:flicker .6s infinite alternate}
+.lit .flame{display:block}
+@keyframes flicker{to{transform:rotate(-8deg) scale(.92)}}
+.candle-panel{background:#fffaf4;border:1px solid #e8d4c4;border-radius:20px;padding:22px}
+.candle-panel h3{margin:0 0 8px;font-size:1.45rem;color:var(--red)}
+.candle-tray{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.pick-candle{border:1px solid #e4c7bc;background:#fff1e8;border-radius:13px;padding:10px 4px;color:#8f4650;min-height:80px}
+.pick-candle .mini{display:block;width:13px;height:39px;margin:0 auto 5px;background:repeating-linear-gradient(135deg,#fff7e7 0 6px,#bf6570 6px 10px);border:1px solid #bd7a7b;border-radius:4px}
+.pick-candle.selected{outline:3px solid #c67b82;background:#f9dfe0}
+.pick-candle.used{opacity:.35;cursor:default}
+.instruction{font-size:.9rem;background:#f5e6dc;border-radius:12px;padding:12px;margin:12px 0}
+.wish-count{font-size:.8rem;color:#966c6a}
+.wish-box{display:none;margin-top:14px;padding:15px;border-radius:15px;background:#f5e6db;border:1px dashed #d5a6a0;animation:fadeIn .35s ease}
+.wish-box.show{display:block}
+.wish-box p{margin:6px 0}
+footer{font-size:.75rem;opacity:.65;margin-top:23px}
+.confetti{position:fixed;top:-20px;width:9px;height:13px;z-index:99;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(760deg);opacity:.15}}
+@media(max-width:650px){.envelope-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.env{min-height:88px}.cake-layout{grid-template-columns:1fr}.cake-scene{min-height:300px}.card{padding:27px 17px}.page{padding:16px 10px 28px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<section class="page active" id="page1">
+  <span class="float heart" style="left:9%;top:15%">♡</span><span class="float" style="right:11%;top:19%;font-size:30px;color:#c29d63">✦</span><span class="float" style="left:15%;bottom:15%;font-size:25px;color:#9aafa0">✿</span><span class="float heart" style="right:12%;bottom:14%">♡</span>
+  <main class="card">
+    <span class="corner one">✿</span><span class="corner two">♡</span>
+    <div class="eyebrow">a tiny website made with a whole lot of love</div>
+    <div style="font-size:50px;margin-top:20px">🎂🎀💌</div>
+    <h1 class="script">Happpyyyy<br>Birthdayyyy!</h1>
+    <p class="subtitle">To my favourite human, my safest place, my bestfriend and my very own oversized kiddo 🥹🫂</p>
+    <div class="sticker">made just for you ♡</div>
+    <p>Today is all about celebrating <em>you</em> — so I made you a little corner of the internet filled with reasons, wishes, and tiny surprises.</p>
+    <div class="actions"><button class="btn" onclick="goTo(2);confetti(90)">Open your little surprise ♡ &nbsp;→</button></div>
+    <footer>best opened with a smile (and maybe a little blush) ♡</footer>
+  </main>
+</section>
+
+<section class="page" id="page2">
+  <main class="card">
+    <div class="eyebrow">chapter one · 23 little love notes</div>
+    <h2>23 reasons I love you</h2>
+    <p class="envelope-hint">Each envelope holds one tiny reason my heart chooses you. Tap them one by one, jaanu. 💌</p>
+    <div class="progress"><span id="openedCount">0</span> of 23 opened · no skipping the mushy stuff 😌</div>
+    <div class="envelope-grid" id="envelopeGrid"></div>
+    <p class="tiny-note">P.S. You can open them in any order. Every single one is yours. 🎀</p>
+    <div class="actions"><button class="btn secondary" onclick="goTo(1)">← Back</button><button class="btn" onclick="goTo(3);confetti(45)">Next surprise →</button></div>
+  </main>
+</section>
+
+<section class="page" id="page3">
+  <main class="card">
+    <div class="eyebrow">chapter two · six wishes, just for you</div>
+    <h2>Make a little wish ✨</h2>
+    <p class="subtitle">Choose a candle, place it on the cake, then tap it to light it and reveal your wish. Six candles, six wishes, and so much love. 🥹🎂</p>
+    <div class="cake-layout">
+      <div class="cake-scene" id="cakeDrop" aria-label="Birthday cake. Place your selected candle here.">
+        <div class="cake">
+          <div class="candles-on-cake" id="candlesOnCake">
+            <button class="candle-slot" data-slot="0" aria-label="Candle one"><span class="candle-stick"><span class="flame"></span></span></button>
+            <button class="candle-slot" data-slot="1" aria-label="Candle two"><span class="candle-stick"><span class="flame"></span></span></button>
+            <button class="candle-slot" data-slot="2" aria-label="Candle three"><span class="candle-stick"><span class="flame"></span></span></button>
+            <button class="candle-slot" data-slot="3" aria-label="Candle four"><span class="candle-stick"><span class="flame"></span></span></button>
+            <button class="candle-slot" data-slot="4" aria-label="Candle five"><span class="candle-stick"><span class="flame"></span></span></button>
+            <button class="candle-slot" data-slot="5" aria-label="Candle six"><span class="candle-stick"><span class="flame"></span></span></button>
+          </div>
+          <div class="icing"></div><div class="cake-body"></div><div class="cake-text">for my love ♡</div><div class="cake-plate"></div>
+        </div>
+      </div>
+      <div class="candle-panel">
+        <h3>Your birthday candles</h3>
+        <p style="font-size:.9rem;margin-top:0">Pick one of the little candles below, then tap an empty spot above the cake to place it.</p>
+        <div class="candle-tray" id="candleTray"></div>
+        <div class="instruction" id="instruction">🕯️ First, choose candle number 1.</div>
+        <div class="wish-count"><span id="wishCount">0</span> of 6 wishes revealed</div>
+        <div class="wish-box" id="wishBox"><div class="script">A wish for you ♡</div><p id="wishText"></p><div class="tiny-note" id="wishNumber"></div></div>
+      </div>
+    </div>
+    <div class="actions"><button class="btn secondary" onclick="goTo(2)">← Back to your letters</button><button class="btn" onclick="finalSurprise()">One last thing ♡</button></div>
+    <footer>blow out imaginary candles, collect real-life hugs ♡</footer>
+  </main>
+</section>
+
+<div class="modal-backdrop" id="letterModal" role="dialog" aria-modal="true" aria-labelledby="letterTitle">
+  <div class="letter"><button class="close" onclick="closeLetter()" aria-label="Close letter">×</button><div class="script">a little note for you 💌</div><h3 id="letterTitle">Reason no. 1</h3><p id="letterText"></p><button class="btn" onclick="closeLetter()">Keeping this one in my heart ♡</button></div>
+</div>
+<div class="modal-backdrop" id="finalModal" role="dialog" aria-modal="true">
+  <div class="letter"><button class="close" onclick="document.getElementById('finalModal').classList.remove('show')" aria-label="Close">×</button><div style="font-size:38px">🫂❤️🎀</div><h2 style="font-size:2rem">My favourite wish?</h2><p>That life lets me keep cheering for you, laughing with you, growing with you, and choosing each other through all the ordinary and extraordinary days. I'm so proud of you, birthday boy. I hope this year is gentle with your heart and beautiful to your dreams. I love youuu. 🥹💋</p><div class="script">Happy birthday, my love ♡</div><button class="btn" onclick="document.getElementById('finalModal').classList.remove('show');confetti(120)">One more celebration! ✨</button></div>
+</div>
+<script>
+const reasons = [
+"You never give up on me, no matter what. You always try to sort things out — now or later, but you always do. 🥺🫂",
+"You haveee the puffiest cheeks everrr 🤭😋 I want to bite them. Please consider this your official warning.",
+"You have the best smile, and when your crooked teeth pop out, I loveee themmmm so much. 😘😘",
+"You have so much patience, and even though I test it every day, somehow you still have plenty left. 🫠",
+"You are always giving to others. You're not selfish; you think about everyone around you too. And honestly? That's the hottest thing ever. 💋",
+"You ain't very funnyyy, but your stupid jokesss still make me smile, so I loveee themmm. 🥹🫶🏻",
+"You always think about me and care for me the mosttt. You make me feel loved in so many little ways. 🎀💗",
+"You have the prettiesttt eyes because all you see is me — and obviously I'm the prettier one. Saglikade me credit ghenar 😒🫶🏻",
+"You are so emotional, even if you don't always show it. I love that soft, feeling-everything side of you. 🫂😙",
+"You are childish and so cute. Literally my favourite oversized kiddo. 😍🥰",
+"You make me feel safe and secure. When I'm with you, my inner child gets to come out, and that's one of the best feelings ever. 🥺🎀",
+"You are my bestfriend. I love how quickly we bonded and how this isn't just about being a couple — we're bestfriends too. I can flirt, joke, and be fully myself without feeling judged. 😋🍒",
+"I love how you remember the things I tell you. I forget so much, but you notice and remember the little details — and it's kind of sexy, not gonna lie. 🤤😛",
+"One single message from you can make or break my mood. You've got that powerrr 🙄 Please use it wisely and don't upset me, okay? 😒",
+"Whenever we're together, it's the best moment for me. Even if we're doing absolutely nothing except walking around, it still feels like the besttt thing. 😌",
+"The way you hug me, comfort me, and baby meee — I just love itttt. 🥹🥹",
+"I love you because you've never pretended to be someone else. You've always been honest and true to who you are. 💌🩷",
+"I love how you're always the reason behind my smiles and laughter. You make my days lighter without even trying. 😚",
+"I love how ready you are to help me and be there for me, even for the tiniest inconvenience in my life. 🥹🫂",
+"I love the way you talk about our future, and how every future story of yours includes me. The way you make space for me in your plans means so much. 🙈💋",
+"You made me believe that even when we fight or disagree, we can still have a future and work towards it together. ♾️❤️",
+"You made me believe love exists — not only in happy moments, but in standing by each other, supporting each other, and showing up through every stage of life. 🥺🎀🫶🏻",
+"I've never felt emotions quite like these with anyone. My mind finds a kind of peace with you that I can't find anywhere else, and my inner kid laughs the loudest around you. 🥹🥰🩷💋"
+];
+const wishes = [
+"May you get everything you've prayed for. I know you pray for me too 🤭🤭 — so I hope the universe sends you a little extra goodness back.",
+"May life always be as kind to you as you are to everybody else. You deserve that softness, too. 🥹🫶🏻",
+"May all your silent prayers be answered, and may all your efforts bring you loads and loads of success. ✨💌",
+"May you receive all the happiness and love there is in the universe. A whole universe-full, just for you. 🎀🧿",
+"May your smile stay the widest forever. May you be protected from bad intentions and unkind people — and may you rise twice as high as anyone ever hopes you'll fall. 🥰💋",
+"May you achieve everything you worry about, and may the shine in your eyes always stay the same. I'm so, so proud of everything you're doing. 🥺🫂✨❤️"
+];
+const opened = new Set();
+const grid = document.getElementById('envelopeGrid');
+reasons.forEach((reason,i)=>{
+  const b=document.createElement('button'); b.className='env'; b.innerHTML=`<span class="seal">💌</span><span class="num">Envelope ${String(i+1).padStart(2,'0')}</span>`;
+  b.setAttribute('aria-label',`Open reason ${i+1}`); b.onclick=()=>openLetter(i,b); grid.appendChild(b);
+});
+function openLetter(i,b){opened.add(i);b.classList.add('opened');b.innerHTML=`<span class="seal">💗</span><span class="num">Opened ♡</span>`;document.getElementById('openedCount').textContent=opened.size;document.getElementById('letterTitle').textContent=`Reason no. ${i+1} ♡`;document.getElementById('letterText').textContent=reasons[i];document.getElementById('letterModal').classList.add('show');confetti(20)}
+function closeLetter(){document.getElementById('letterModal').classList.remove('show')}
+document.getElementById('letterModal').addEventListener('click',e=>{if(e.target.id==='letterModal')closeLetter()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeLetter();document.getElementById('finalModal').classList.remove('show')}});
+function goTo(n){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page'+n).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function confetti(amount=50){const colors=['#b94c59','#e6a7a8','#d8ae69','#b7c6b0','#c5d5d0','#f4cbd0'];for(let i=0;i<amount;i++){const el=document.createElement('i');el.className='confetti';el.style.left=Math.random()*100+'vw';el.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];el.style.borderRadius=Math.random()>.5?'50%':'2px';el.style.animationDuration=(2.3+Math.random()*2.7)+'s';el.style.animationDelay=(Math.random()*.7)+'s';el.style.transform=`rotate(${Math.random()*180}deg)`;document.body.appendChild(el);setTimeout(()=>el.remove(),5700)}}
+let selected=null;const placed=new Set();const lit=new Set();const tray=document.getElementById('candleTray');
+for(let i=0;i<6;i++){const b=document.createElement('button');b.className='pick-candle';b.innerHTML=`<span class="mini"></span><span style="font-size:.78rem">Candle ${i+1}</span>`;b.onclick=()=>chooseCandle(i,b);tray.appendChild(b)}
+function chooseCandle(i,b){if(placed.has(i))return;selected=i;document.querySelectorAll('.pick-candle').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');document.getElementById('instruction').textContent=`🕯️ Candle ${i+1} selected! Now tap an empty candle spot above the cake.`}
+document.querySelectorAll('.candle-slot').forEach((slot,i)=>slot.onclick=()=>{
+  if(!placed.has(i)){
+    if(selected===null){document.getElementById('instruction').textContent='🎀 Choose a candle from the tray first, then tap an empty spot on the cake.';return}
+    placed.add(i);slot.classList.add('placed');const trayButton=tray.children[selected];trayButton.classList.remove('selected');trayButton.classList.add('used');trayButton.disabled=true;slot.dataset.wish=selected;slot.setAttribute('aria-label',`Light candle ${selected+1}`);document.getElementById('instruction').textContent=`Lovely! Candle ${selected+1} is on the cake. Tap the candle to light it and reveal your wish ✨`;selected=null;
+  }else{
+    const wishIndex=Number(slot.dataset.wish);if(lit.has(wishIndex)){document.getElementById('wishText').textContent=wishes[wishIndex];document.getElementById('wishNumber').textContent=`Wish ${wishIndex+1} of 6`;document.getElementById('wishBox').classList.add('show');return}
+    lit.add(wishIndex);slot.classList.add('lit');document.getElementById('wishText').textContent=wishes[wishIndex];document.getElementById('wishNumber').textContent=`Wish ${wishIndex+1} of 6 · made with love ♡`;document.getElementById('wishBox').classList.add('show');document.getElementById('wishCount').textContent=lit.size;document.getElementById('instruction').textContent=lit.size===6?'All six wishes are glowing — just like you. Happy birthday, my love! 🥹❤️':'Your wish is glowing! Choose another candle for another little wish. 💗';confetti(65);
+  }
+});
+function finalSurprise(){document.getElementById('finalModal').classList.add('show');confetti(100)}
+</script>
+</body>
+</html>
